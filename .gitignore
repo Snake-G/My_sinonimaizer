@@ -129,4 +129,8 @@ dmypy.json
 .pyre/
 
 # Папка с моделями большого объема
-214/
+Rus2Vec_models/
+Rus2Vec_models/214/
+
+# временные файлы
+.idea
