@@ -130,7 +130,11 @@ dmypy.json
 
 # Папка с моделями большого объема
 Rus2Vec_models/
-Rus2Vec_models/214/
 
 # временные файлы
+.idea/
 .idea
+
+# config
+config.py
+
