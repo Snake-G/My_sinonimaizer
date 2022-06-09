@@ -133,7 +133,7 @@ Rus2Vec_models/
 
 # временные файлы
 .idea/
-.idea
+
 
 # config
 config.py
