@@ -1,15 +1,16 @@
 import gensim
 from gensim.models import Word2Vec
-from webapp.normalization_words import input_word
+from webapp.modul_vord2vec.normalization_words import normalization_word
 import time
 
-# import logging
-# import sys
 
-def sin():
+PATH_FOR_MODEL_bin = 'd:/My_sinonimaizer/Rus2Vec_models/220/model.bin'
+PATH_FOR_MODEL_model = 'd:/My_sinonimaizer/Rus2Vec_models/.../model.model'
+
+def get_sinonims():
     # model = gensim.models.KeyedVectors.load('d:/My_sinonimaizer/Rus2Vec_models/214/model.model')
-    model = gensim.models.KeyedVectors.load_word2vec_format('d:/My_sinonimaizer/Rus2Vec_models/220/model.bin', binary=True)
-    words = input_word(input())
+    model = gensim.models.KeyedVectors.load_word2vec_format(PATH_FOR_MODEL_bin, binary=True)
+    words = normalization_word(input())
 
     # Попросим у модели 10 ближайших соседей для каждого слова и коэффициент косинусной близости для каждого:
     for word in words:
@@ -28,6 +29,5 @@ def sin():
 
 if __name__ == '__main__':
     start = time.time()
-    sin()
-    print(f'работало {time.time() - start}')
-
+    get_sinonims()
+    print(f'работало {time.time() - start} секунд')

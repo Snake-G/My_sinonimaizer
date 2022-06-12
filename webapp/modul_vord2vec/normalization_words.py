@@ -1,8 +1,5 @@
 # coding: utf-8
 
-import sys
-import os
-import wget
 import re
 from ufal.udpipe import Model, Pipeline
 
@@ -17,6 +14,8 @@ from ufal.udpipe import Model, Pipeline
 echo 'Мама мыла раму.' | python3 rus_preprocessing_udpipe.py
 zcat large_corpus.txt.gz | python3 rus_preprocessing_udpipe.py | gzip > processed_corpus.txt.gz
 """
+
+PATH_FOR_MODEL = 'd:/My_sinonimaizer/Rus2Vec_models/udpipe_syntagrus.model'
 
 
 def num_replace(word):
@@ -211,57 +210,15 @@ def process(pipeline, text="Строка", keep_pos=True, keep_punct=False):
     return tagged_propn
 
 
-# URL of the UDPipe model
-
-# так было в коде Rus2Vec:
-
-# udpipe_model_url = "https://rusvectores.org/static/models/udpipe_syntagrus.model"
-# udpipe_filename = udpipe_model_url.split("/")[-1]
-
-# if not os.path.isfile(udpipe_filename):
-#     print("UDPipe model not found. Downloading...", file=sys.stderr)
-#     wget.download(udpipe_model_url)
-
-# print("\nLoading the model...", file=sys.stderr)
-# model = Model.load(udpipe_filename)
-# process_pipeline = Pipeline(
-#     model, "tokenize", Pipeline.DEFAULT, Pipeline.DEFAULT, "conllu"
-# )
-
-# print("Processing input...", file=sys.stderr)
-# for input_line in sys.stdin:
-#     res = unify_sym(input_line.strip())
-#     output = process(process_pipeline, text=res)
-#     print(" ".join(output))
-
-
-# я обернул в функцию для вызова из Rus2vec_my_models
-
-def input_word(input_line):
+def normalization_word(input_line):
     input_line = input_line.split()
 
-    # udpipe_model_url = "https://rusvectores.org/static/models/udpipe_syntagrus.model"
-    # udpipe_filename = udpipe_model_url.split("/")[-1]
-    #
-    # if not os.path.isfile(udpipe_filename):
-    #     print("UDPipe model not found. Downloading...", file=sys.stderr)
-    #     wget.download(udpipe_model_url)
-    #
-    # # print("\nLoading the model...", file=sys.stderr)
-    # model = Model.load(udpipe_filename)
-    # process_pipeline = Pipeline(model, "tokenize", Pipeline.DEFAULT, Pipeline.DEFAULT, "conllu")
-
-    model = Model.load('d:/My_sinonimaizer/Rus2Vec_models/udpipe_syntagrus.model')
+    model = Model.load(PATH_FOR_MODEL)
     process_pipeline = Pipeline(model, "tokenize", Pipeline.DEFAULT, Pipeline.DEFAULT, "conllu")
 
-    # print("Processing input...", file=sys.stderr)
     return_out = []
     for inp in input_line:
         res = unify_sym(inp.strip())
         output = process(process_pipeline, text=res)
         return_out += output
-        # print(return_out)
     return return_out
-    # res = unify_sym(input_line.strip())
-    # output = process(process_pipeline, text=res)
-    # return output
