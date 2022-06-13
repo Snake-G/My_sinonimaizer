@@ -6,6 +6,8 @@
 Запуск сервера командой:
 set FLASK_APP=__init__.py && set FLASK_ENV=development && set FLASK_DEBUG=1 && flask run
 
+Push ветки кода
+git push --set-upstream origin feature/server_flask
 '''
 
 from flask import Flask, render_template
