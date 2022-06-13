@@ -1,3 +1,6 @@
+# coding: utf-8
+
+
 '''
 
 Запуск сервера командой:
@@ -10,7 +13,8 @@ from flask import Flask, render_template
 
 def create_app():
     app = Flask(__name__)
-    app.config.from_pyfile('config.py')
+
+    # app.config.from_pyfile('config.py')
 
     @app.route('/')
     def index():
@@ -20,13 +24,10 @@ def create_app():
 
     @app.route('/for_input_words')
     def for_input_words():
-        return render_template('for_input_words.html')
-
-
+        return render_template('for_input_words.html', title='Синонимайзер')
 
     @app.route('/for_input_text')
     def for_input_text():
-        pass
-
+        return render_template('for_input_text.html', title='Синонимайзер')
 
     return app

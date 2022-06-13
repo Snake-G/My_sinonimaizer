@@ -211,7 +211,7 @@ def process(pipeline, text="Строка", keep_pos=True, keep_punct=False):
 
 
 def normalization_word(input_line):
-    input_line = input_line.split()
+    # input_line = input_line.split()
 
     model = Model.load(PATH_FOR_MODEL)
     process_pipeline = Pipeline(model, "tokenize", Pipeline.DEFAULT, Pipeline.DEFAULT, "conllu")

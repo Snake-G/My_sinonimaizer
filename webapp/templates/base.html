@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    {% if title %}
+    <title>{{ title }}</title>
+    {% else %}
+    <title>Sinonimaizer</title>
+    {% endif %}
+    <style>
+        h1 {
+            background-color: darkgray;
+            font-family: "Times New Roman",sans-serif;
+            line-height: 1.5em;
+        }
+        li {
+            background-color: darkgray;
+        }
+    </style>
+</head>
+<body>
+    {% block content %}{% endblock %}
+</body>
+</html>
