@@ -1,6 +1,6 @@
 import gensim
 from gensim.models import Word2Vec
-from webapp.modul_vord2vec.normalization_words import normalization_word
+from modul_vord2vec import normalization_words
 import time
 
 PATH_FOR_MODEL_bin = 'd:/My_sinonimaizer/Rus2Vec_models/220/model.bin'
@@ -13,7 +13,7 @@ def get_sinonim_for_word():
 
     try:
         if word_for_normalize[0].isalpha() and len(word_for_normalize) == 1:
-            words = normalization_word(word_for_normalize)
+            words = normalization_words(word_for_normalize)
     except (ValueError, TypeError):
         print('ошибочка')
 
