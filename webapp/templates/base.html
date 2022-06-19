@@ -2,6 +2,12 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
+    <div>
+        Синонимайзер:
+        <a href="{{ url_for('index') }}">Home </a>
+        <a href="{{ url_for('for_input_word') }}">Подбор синонимов к слову </a>
+        <a href="{{ url_for('for_input_text') }}">Подбор синонимов к тексту</a>
+    </div>
     {% if title %}
     <title>{{ title }}</title>
     {% else %}
@@ -10,9 +16,10 @@
     <style>
         h1 {
             background-color: darkgray;
-            font-family: "Times New Roman",sans-serif;
+            font-family: "Times New Roman", sans-serif;
             line-height: 1.5em;
         }
+
         li {
             background-color: darkgray;
         }

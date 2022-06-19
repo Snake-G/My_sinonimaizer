@@ -1,41 +1,33 @@
 import gensim
 from gensim.models import Word2Vec
-from modul_vord2vec import normalization_words
+from modul_vord2vec.normalization_words import normalization_word
 import time
-
-PATH_FOR_MODEL_bin = 'd:/My_sinonimaizer/Rus2Vec_models/220/model.bin'
-PATH_FOR_MODEL_model = 'd:/My_sinonimaizer/Rus2Vec_models/.../model.model'
+import config
 
 
 def get_sinonim_for_word():
     word_for_normalize = input().split()
-    words = []
+    word = []
+    if word_for_normalize[0].isalpha():
+        word = normalization_word(word_for_normalize[0])
+    else:
+        print('Слово должно содержать только буквы русского языка')
 
-    try:
-        if word_for_normalize[0].isalpha() and len(word_for_normalize) == 1:
-            words = normalization_words(word_for_normalize)
-    except (ValueError, TypeError):
-        print('ошибочка')
-
-    # model = gensim.models.KeyedVectors.load(PATH_FOR_MODEL_model)
-    model = gensim.models.KeyedVectors.load_word2vec_format(PATH_FOR_MODEL_bin, binary=True)
-    # print(len(word_for_normalize))
-
-    # words = normalization_word(word_for_normalize)
-
-    # Попросим у модели 10 ближайших соседей для каждого слова и коэффициент косинусной близости для каждого:
-    for word in words:
-        # есть ли слово в модели? Может быть, и нет
-        if word in model:
-            print(f'Слово: {word}')
-            # выдаем 10 ближайших соседей слова:
-            for i in model.most_similar(positive=[word], topn=15):
-                # слово  # + коэффициент косинусной близости
-                print(i[0])  # , i[1])
-            print('\n')
-        else:
-            # Увы!
-            print(f'Слово {word} отсутствет в словаре')
+    # model = gensim.models.KeyedVectors.load(PATH_FOR_MODEL_MODEL)
+    model = gensim.models.KeyedVectors.load_word2vec_format(config.PATH_FOR_MODEL_BIN, binary=True)
+    word = ''.join(word)
+    # Попросим у модели ххх ближайших соседей для каждого слова и коэффициент косинусной близости для каждого:
+    # есть ли слово в модели? Может быть, и нет
+    if word in model:
+        print(f'Слово: {word}')
+        # выдаем 10 ближайших соседей слова:
+        for i in model.most_similar(positive=[word], topn=15):
+            # слово  # + коэффициент косинусной близости
+            print(i[0])  # , i[1])
+        print('\n')
+    else:
+        # Увы!
+        print(f'Слово {word} отсутствет в словаре')
 
 
 def get_sinonims_for_text():

@@ -2,6 +2,7 @@
 
 import re
 from ufal.udpipe import Model, Pipeline
+import config
 
 """
 Этот скрипт принимает на вход необработанный русский текст 
@@ -14,8 +15,6 @@ from ufal.udpipe import Model, Pipeline
 echo 'Мама мыла раму.' | python3 rus_preprocessing_udpipe.py
 zcat large_corpus.txt.gz | python3 rus_preprocessing_udpipe.py | gzip > processed_corpus.txt.gz
 """
-
-PATH_FOR_MODEL = 'd:/My_sinonimaizer/Rus2Vec_models/udpipe_syntagrus.model'
 
 
 def num_replace(word):
@@ -211,13 +210,18 @@ def process(pipeline, text="Строка", keep_pos=True, keep_punct=False):
 
 
 def normalization_word(input_line):
-    # input_line = input_line.split()
-
-    model = Model.load(PATH_FOR_MODEL)
+    model = Model.load(config.PATH_FOR_MODEL)
     process_pipeline = Pipeline(model, "tokenize", Pipeline.DEFAULT, Pipeline.DEFAULT, "conllu")
+    res = unify_sym(input_line)
+    return_out = process(process_pipeline, text=res)
+    return return_out
 
+
+def normalization_text(input_line):
+    model = Model.load(config.PATH_FOR_MODEL)
+    process_pipeline = Pipeline(model, "tokenize", Pipeline.DEFAULT, Pipeline.DEFAULT, "conllu")
     return_out = []
-    for inp in input_line:
+    for inp in list(input_line):
         res = unify_sym(inp.strip())
         output = process(process_pipeline, text=res)
         return_out += output
