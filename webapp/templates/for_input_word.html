@@ -1,17 +1,24 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="naverhu">
-    <h2>Подбор синонимов для указанного слова</h2>
-    <div id="message"></div>
-    <form method="post" action="/s/" accept-charset="UTF-8" id="submitShow">
-        <input autocomplete="off" placeholder="введите слово" title="нажмите и введите слово" name="word"
-               type="text" size="30" id="text" autofocus="">
-        <input type="submit" value="Найти синонимы" class="button" id="submitSyn">
-    </form>
-    <div class="otstup">Введите слово и нажмите «Найти синонимы».</div>
-</div>
+<!--<div class="naverhu">-->
+<!--    <h2>Подбор синонимов для указанного слова</h2>-->
+<!--    <div id="message"></div>-->
+<!--    <form method="post" action="/s/" accept-charset="UTF-8" id="submitShow">-->
+<!--        <input autocomplete="off" placeholder="введите слово" title="нажмите и введите слово" name="word"-->
+<!--               type="text" size="30" id="text" autofocus="">-->
+<!--        <input type="submit" value="Найти синонимы" class="button" id="submitSyn">-->
+<!--    </form>-->
+<!--    <div class="otstup">Введите слово и нажмите «Найти синонимы».</div>-->
+<!--</div>-->
+<form action="" method="post">
+<!--    {{ form.hidden_tag() }}-->
+    <p>
+        {{ form.message.label }}<br>{{ form.message() }}
+    </p>
+    <p>{{ form.submit }}</p>
 
+</form>
 
 
 

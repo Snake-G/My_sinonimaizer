@@ -2,7 +2,7 @@
 
 import re
 from ufal.udpipe import Model, Pipeline
-import config
+from webapp import config
 
 """
 Этот скрипт принимает на вход необработанный русский текст 

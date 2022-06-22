@@ -1,8 +1,8 @@
 import gensim
 from gensim.models import Word2Vec
-from modul_vord2vec.normalization_words import normalization_word
+from modul_word2vec.normalization_words import normalization_word
 import time
-import config
+from webapp import config
 
 
 def get_sinonim_for_word():
