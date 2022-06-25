@@ -22,15 +22,12 @@ def create_app():
 
     @app.route('/for_input_word', methods=['GET', 'POST'])
     def for_input_word():
-        print('Функция for_input_word')
         input_text_form = MessageForm()
-        input_word = ''
-        return_result = []
         if input_text_form.validate_on_submit():
-            print('1111111')
-            input_word = input_text_form.message.data
-            return_result = get_sinonim_for_word(input_word)
-            return redirect(url_for('for_output_words'), words=return_result)
+            return_result = get_sinonim_for_word(input_text_form.message.data)
+            print(return_result)
+            return render_template('for_output_words.html', len=len(return_result), words=return_result)
+
         return render_template('for_input_word.html', title='Подбор синонимов для слова',
                                form=input_text_form)
 

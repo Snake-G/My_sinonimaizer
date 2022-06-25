@@ -5,8 +5,8 @@ import time
 from webapp import config
 
 
-def get_sinonim_for_word():
-    word_for_normalize = input().split()
+def get_sinonim_for_word(word_from_html):
+    word_for_normalize = word_from_html.split()
     word = []
     if word_for_normalize[0].isalpha():
         word = normalization_word(word_for_normalize[0])
@@ -18,13 +18,14 @@ def get_sinonim_for_word():
     word = ''.join(word)
     # Попросим у модели ххх ближайших соседей для каждого слова и коэффициент косинусной близости для каждого:
     # есть ли слово в модели? Может быть, и нет
+    return_words = []
+    word_for_output = ''
     if word in model:
-        print(f'Слово: {word}')
-        # выдаем 10 ближайших соседей слова:
+        # выдаем сколько-то (topn=...) ближайших соседей слова:
         for i in model.most_similar(positive=[word], topn=15):
             # слово  # + коэффициент косинусной близости
-            print(i[0])  # , i[1])
-        print('\n')
+            return_words.append(i[0].split('_')[0])
+        return return_words
     else:
         # Увы!
         print(f'Слово {word} отсутствет в словаре')
