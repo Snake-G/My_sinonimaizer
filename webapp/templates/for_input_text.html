@@ -1,5 +1,21 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <p>Страница для ввода текста</p>
+
+<form action="" method="post">
+    {{ form.hidden_tag() }}
+    <p>
+        {{ form.message.label }}<br>{{ form.message() }}
+    </p>
+    <p>{{ form.submit }}</p>
+</form>
+
+<form action="" method="post">
+    <div class="form-group">
+        <label for="exampleFormControlTextarea1">Введите текст</label>
+        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+    </div>
+    <button type="button" class="btn btn-primary">Подобрать синонимы</button>
+</form>
+
 {% endblock %}

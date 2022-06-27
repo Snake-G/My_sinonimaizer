@@ -19,16 +19,16 @@ def get_sinonim_for_word(word_from_html):
     # Попросим у модели ххх ближайших соседей для каждого слова и коэффициент косинусной близости для каждого:
     # есть ли слово в модели? Может быть, и нет
     return_words = []
-    word_for_output = ''
     if word in model:
         # выдаем сколько-то (topn=...) ближайших соседей слова:
-        for i in model.most_similar(positive=[word], topn=15):
+        for i in model.most_similar(positive=[word], topn=150):
             # слово  # + коэффициент косинусной близости
             return_words.append(i[0].split('_')[0])
         return return_words
     else:
         # Увы!
-        print(f'Слово {word} отсутствет в словаре')
+        # return_words = f"Слово {word.split('_')[0]} отсутствет в словаре"
+        return return_words
 
 
 def get_sinonims_for_text():
