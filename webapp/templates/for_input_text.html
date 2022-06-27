@@ -4,18 +4,17 @@
 
 <form action="" method="post">
     {{ form.hidden_tag() }}
-    <p>
+    <div class="form-group">
         {{ form.message.label }}<br>{{ form.message() }}
-    </p>
-    <p>{{ form.submit }}</p>
+
+    </div>
+    <p>{{ form.submit() }}</p>
 </form>
 
-<form action="" method="post">
-    <div class="form-group">
-        <label for="exampleFormControlTextarea1">Введите текст</label>
-        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-    </div>
-    <button type="button" class="btn btn-primary">Подобрать синонимы</button>
-</form>
+<!--<form action="" method="post">-->
+<!--        <label for="exampleFormControlTextarea1">Введите текст</label>-->
+<!--        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>-->
+<!--    <button type="button" class="btn btn-primary">Подобрать синонимы</button>-->
+<!--</form>-->
 
 {% endblock %}

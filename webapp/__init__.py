@@ -8,6 +8,7 @@ git push --set-upstream origin feature/server_flask
 """
 
 from flask import Flask, render_template, request, redirect, url_for
+from flask_bootstrap import Bootstrap
 from webapp.projects.forms import MessageFormWord, MessageFormText
 from modul_word2vec.Rus2vec_my_models import get_sinonim_for_word
 
@@ -27,9 +28,8 @@ def create_app():
             return_result = get_sinonim_for_word(input_text_form.message.data)
             return render_template('for_input_word.html', title='Подбор синонимов для слова',
                                form=input_text_form, words=return_result)
-
         return render_template('for_input_word.html', title='Подбор синонимов для слова',
-                               form=input_text_form, words=[])
+                               form=input_text_form)
 
     @app.route('/for_input_text', methods=['GET', 'POST'])
     def for_input_text():
