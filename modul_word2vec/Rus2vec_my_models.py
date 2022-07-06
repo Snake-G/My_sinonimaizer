@@ -11,8 +11,7 @@ def get_sinonim_for_word(word_from_html):
     if word_for_normalize[0].isalpha():
         word = normalization_word(word_for_normalize[0])
     else:
-        print('Слово должно содержать только буквы русского языка')
-
+        return 'Введенное слово должно содержать только буквы'
     # model = gensim.models.KeyedVectors.load(PATH_FOR_MODEL_MODEL)
     model = gensim.models.KeyedVectors.load_word2vec_format(config.PATH_FOR_MODEL_BIN, binary=True)
     word = ''.join(word)
@@ -21,41 +20,43 @@ def get_sinonim_for_word(word_from_html):
     return_words = []
     if word in model:
         # выдаем сколько-то (topn=...) ближайших соседей слова:
-        for i in model.most_similar(positive=[word], topn=150):
+        for i in model.most_similar(positive=[word], topn=15):
             # слово  # + коэффициент косинусной близости
-            return_words.append(i[0].split('_')[0])
+            if i not in return_words:
+                return_words.append(i[0].split('_')[0])
+            else:
+                continue
         return return_words
     else:
         # Увы!
         # return_words = f"Слово {word.split('_')[0]} отсутствет в словаре"
-        return return_words
+        return f"Слово {word.split('_')[0]} отсутствет в словаре"
 
 
-def get_sinonims_for_text():
-    # # model = gensim.models.KeyedVectors.load('d:/My_sinonimaizer/Rus2Vec_models/214/model.model')
-    # model = gensim.models.KeyedVectors.load_word2vec_format(PATH_FOR_MODEL_bin, binary=True)
-    # word_for_normalize = input().split()
-    # print(len(word_for_normalize))
+def get_sinonims_for_text(text_from_html):
+    # model = gensim.models.KeyedVectors.load('d:/My_sinonimaizer/Rus2Vec_models/214/model.model')
+    model = gensim.models.KeyedVectors.load_word2vec_format(config.PATH_FOR_MODEL_BIN, binary=True)
+    word_for_normalize = input().split()
+    print(len(word_for_normalize))
     # try:
     #     if len(word_for_normalize) == 1 and word_for_normalize[0].isalpha():
     #         words = normalization_word(word_for_normalize)
     # except:
     #     raise ValueError('Введите одно слово')
-    #
-    # # Попросим у модели 10 ближайших соседей для каждого слова и коэффициент косинусной близости для каждого:
-    # for word in words:
-    #     # есть ли слово в модели? Может быть, и нет
-    #     if word in model:
-    #         print(f'Слово: {word}')
-    #         # выдаем 10 ближайших соседей слова:
-    #         for i in model.most_similar(positive=[word], topn=15):
-    #             # слово  # + коэффициент косинусной близости
-    #             print(i[0])  # , i[1])
-    #         print('\n')
-    #     else:
-    #         # Увы!
-    #         print(f'Слово {word} отсутствет в словаре')
-    pass
+    words = normalization_word(word_for_normalize)
+    # Попросим у модели 10 ближайших соседей для каждого слова и коэффициент косинусной близости для каждого:
+    for word in words:
+        # есть ли слово в модели? Может быть, и нет
+        if word in model:
+            print(f'Слово: {word}')
+            # выдаем 10 ближайших соседей слова:
+            for i in model.most_similar(positive=[word], topn=15):
+                # слово  # + коэффициент косинусной близости
+                print(i[0])  # , i[1])
+            print('\n')
+        else:
+            # Увы!
+            print(f'Слово {word} отсутствет в словаре')
 
 
 if __name__ == '__main__':

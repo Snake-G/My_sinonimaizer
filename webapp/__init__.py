@@ -27,9 +27,11 @@ def create_app():
         if input_text_form.validate_on_submit():
             return_result = get_sinonim_for_word(input_text_form.message.data)
             return render_template('for_input_word.html', title='Подбор синонимов для слова',
-                               form=input_text_form, words=return_result)
-        return render_template('for_input_word.html', title='Подбор синонимов для слова',
-                               form=input_text_form)
+                                   form=input_text_form, words=return_result,
+                                   output='Подобранные синонимы для введенного слова:')
+        else:
+            return render_template('for_input_word.html', title='Подбор синонимов для слова',
+                                   form=input_text_form)
 
     @app.route('/for_input_text', methods=['GET', 'POST'])
     def for_input_text():

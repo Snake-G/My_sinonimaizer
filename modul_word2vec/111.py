@@ -1,20 +1,9 @@
-# coding: utf-8
-
 import re
-from ufal.udpipe import Model, Pipeline
-from webapp import config
 
-"""
-Этот скрипт принимает на вход необработанный русский текст 
-(одно предложение на строку или один абзац на строку).
-Он токенизируется, лемматизируется и размечается по частям речи с использованием UDPipe.
-На выход подаётся последовательность разделенных пробелами лемм с частями речи 
-("зеленый_ADJ трамвай_NOUN").
-Их можно непосредственно использовать в моделях с RusVectōrēs (https://rusvectores.org).
-Примеры запуска:
-echo 'Мама мыла раму.' | python3 rus_preprocessing_udpipe.py
-zcat large_corpus.txt.gz | python3 rus_preprocessing_udpipe.py | gzip > processed_corpus.txt.gz
-"""
+import gensim
+from ufal.udpipe import Model, Pipeline
+
+from webapp import config
 
 
 def num_replace(word):
@@ -217,12 +206,28 @@ def normalization_word(input_line):
     return return_out
 
 
-# def normalization_text(input_line):
-#     model = Model.load(config.PATH_FOR_MODEL)
-#     process_pipeline = Pipeline(model, "tokenize", Pipeline.DEFAULT, Pipeline.DEFAULT, "conllu")
-#     return_out = []
-#     for inp in list(input_line):
-#         res = unify_sym(inp.strip())
-#         output = process(process_pipeline, text=res)
-#         return_out += output
-#     return return_out
+model = gensim.models.KeyedVectors.load_word2vec_format(config.PATH_FOR_MODEL_BIN, binary=True)
+word_for_normalize = input()  # .split()
+
+words = normalization_word(word_for_normalize)
+# print(words)
+dict_words = {x.split('_')[0]: None for x in words}
+# print(dict_words)
+
+# Попросим у модели 10 ближайших соседей для каждого слова и коэффициент косинусной близости для каждого:
+for word in words:
+    words_list = []
+    # есть ли слово в модели? Может быть, и нет
+    if word in model:
+        # print(f'Слово: {word}')
+        # выдаем 10 ближайших соседей слова:
+        for i in model.most_similar(positive=[word], topn=15):
+            # слово  # + коэффициент косинусной близости
+            # print(i[0])  # , i[1])
+            words_list.append(i[0].split('_')[0])
+        dict_words[word.split('_')[0]] = words_list
+        # print('\n')
+    # else:
+    #     # Увы!
+    #     print(f'Слово {word} отсутствет в словаре')
+print(dict_words)
