@@ -6,8 +6,7 @@ from webapp import config
 
 
 def get_sinonim_for_word(word_from_html):
-    word_for_normalize = word_from_html.split()
-    word = []
+    word_for_normalize = word_from_html.lower().split()
     if word_for_normalize[0].isalpha():
         word = normalization_word(word_for_normalize[0])
     else:
@@ -19,10 +18,12 @@ def get_sinonim_for_word(word_from_html):
     # есть ли слово в модели? Может быть, и нет
     return_words = []
     if word in model:
+        print(word.split('_')[0])
         # выдаем сколько-то (topn=...) ближайших соседей слова:
         for i in model.most_similar(positive=[word], topn=15):
             # слово  # + коэффициент косинусной близости
-            if i not in return_words:
+            if i not in return_words and i[0].split('_')[0] != word.split('_')[0]:
+                print(i)
                 return_words.append(i[0].split('_')[0])
             else:
                 continue
