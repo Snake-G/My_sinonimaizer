@@ -205,11 +205,20 @@ def normalization_word(input_line):
     return_out = process(process_pipeline, text=res)
     return return_out
 
+def normalization_text(input_line):
+    model = Model.load(config.PATH_FOR_MODEL)
+    process_pipeline = Pipeline(model, "tokenize", Pipeline.DEFAULT, Pipeline.DEFAULT, "conllu")
+    return_out = []
+    for inp in input_line:
+        res = unify_sym(inp.strip())
+        output = process(process_pipeline, text=res)
+        return_out += output
+    return return_out
 
 model = gensim.models.KeyedVectors.load_word2vec_format(config.PATH_FOR_MODEL_BIN, binary=True)
-word_for_normalize = input()  # .split()
+# word_for_normalize = input().split()
 
-words = normalization_word(word_for_normalize)
+words = normalization_text(input().split())
 # print(words)
 dict_words = {x.split('_')[0]: None for x in words}
 # print(dict_words)
@@ -221,7 +230,7 @@ for word in words:
     if word in model:
         # print(f'Слово: {word}')
         # выдаем 10 ближайших соседей слова:
-        for i in model.most_similar(positive=[word], topn=15):
+        for i in model.most_similar(positive=[word], topn=5):
             # слово  # + коэффициент косинусной близости
             # print(i[0])  # , i[1])
             words_list.append(i[0].split('_')[0])

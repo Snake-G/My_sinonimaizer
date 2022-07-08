@@ -7,10 +7,9 @@ Push ветки кода
 git push --set-upstream origin feature/server_flask
 """
 
-from flask import Flask, render_template, request, redirect, url_for
-from flask_bootstrap import Bootstrap
+from flask import Flask, render_template
 from webapp.projects.forms import MessageFormWord, MessageFormText
-from modul_word2vec.Rus2vec_my_models import get_sinonim_for_word
+from modul_word2vec.Rus2vec import get_synonym_for_word, get_synonym_for_text
 
 
 def create_app():
@@ -25,9 +24,9 @@ def create_app():
     def for_input_word():
         input_text_form = MessageFormWord()
         if input_text_form.validate_on_submit():
-            return_result = get_sinonim_for_word(input_text_form.message.data)
+            list_of_synonyms = get_synonym_for_word(input_text_form.message.data)
             return render_template('for_input_word.html', title='Подбор синонимов для слова',
-                                   form=input_text_form, words=return_result,
+                                   form=input_text_form, words=list_of_synonyms,
                                    output='Подобранные синонимы для введенного слова:')
         else:
             return render_template('for_input_word.html', title='Подбор синонимов для слова',
@@ -36,6 +35,11 @@ def create_app():
     @app.route('/for_input_text', methods=['GET', 'POST'])
     def for_input_text():
         input_text_form = MessageFormText()
+        if input_text_form.validate_on_submit():
+            dict_of_synonyms = get_synonym_for_text(input_text_form.message.data)
+            return render_template('for_input_text.html', title='Подбор синонимов для слова',
+                                   form=input_text_form, dict=dict_of_synonyms,
+                                   output='Подобранные синонимы:')
 
         return render_template('for_input_text.html', title='Синонимайзер с корректировкой текста',
                                form=input_text_form)

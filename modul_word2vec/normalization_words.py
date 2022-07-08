@@ -217,12 +217,12 @@ def normalization_word(input_line):
     return return_out
 
 
-# def normalization_text(input_line):
-#     model = Model.load(config.PATH_FOR_MODEL)
-#     process_pipeline = Pipeline(model, "tokenize", Pipeline.DEFAULT, Pipeline.DEFAULT, "conllu")
-#     return_out = []
-#     for inp in list(input_line):
-#         res = unify_sym(inp.strip())
-#         output = process(process_pipeline, text=res)
-#         return_out += output
-#     return return_out
+def normalization_text(input_line):
+    model = Model.load(config.PATH_FOR_MODEL)
+    process_pipeline = Pipeline(model, "tokenize", Pipeline.DEFAULT, Pipeline.DEFAULT, "conllu")
+    return_out = []
+    for inp in input_line:
+        res = unify_sym(inp.strip())
+        output = process(process_pipeline, text=res)
+        return_out += output
+    return return_out
