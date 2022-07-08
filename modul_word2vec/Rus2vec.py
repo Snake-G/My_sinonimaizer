@@ -13,15 +13,14 @@ def get_synonym_for_word(word_from_html):
         return 'Введенное слово должно содержать только буквы'
     # model = gensim.models.KeyedVectors.load(PATH_FOR_MODEL_MODEL)
     model = gensim.models.KeyedVectors.load_word2vec_format(config.PATH_FOR_MODEL_BIN, binary=True)
-    word = ''.join(word)
     # Попросим у модели ххх ближайших соседей для каждого слова и коэффициент косинусной близости для каждого:
     # есть ли слово в модели? Может быть, и нет
     return_words = []
-    if word in model:
+    if word[0] in model:
         # выдаем сколько-то (topn=...) ближайших соседей слова:
-        for i in model.most_similar(positive=[word], topn=15):
+        for i in model.most_similar(positive=[word[0]], topn=15):
             # слово  # + коэффициент косинусной близости
-            if i[0].split('_')[0] not in return_words and i[0].split('_')[0] != word.split('_')[0]:
+            if i[0].split('_')[0] not in return_words and i[0].split('_')[0] != word[0]:
                 return_words.append(i[0].split('_')[0])
             else:
                 continue
