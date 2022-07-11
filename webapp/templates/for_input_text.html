@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<form action="" method="post">
+    <div class="pt-5 d-flex justify-content-left">
+        <div class="d-flex flex-column">
+            <p>{{ form.hidden_tag() }}</p>
+            <p>{{ form.message.label }}<br>{{ form.message(cols=150) }}</p>
+            <p>{{ form.submit }}</p>
+        </div>
+    </div>
+</form>
+
+<div class="col-md-auto">
+    {% if dict is mapping %}
+        <p>{{ output }}</p>
+        {% for word, synonyms in dict.items() %}
+            {% if synonyms == None %}
+                <li><i>к слову "{{ word }}" в словаре нет подходящих синонимов</i></li>
+            {% else %}
+                <li>{{ word }} : {{ synonyms }}</li>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+</div>
+
+{% endblock %}

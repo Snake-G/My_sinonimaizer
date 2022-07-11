@@ -127,3 +127,14 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# Папка с моделями большого объема
+Rus2Vec_models/
+
+# временные файлы
+.idea/
+
+
+# config
+webapp/config.py
+

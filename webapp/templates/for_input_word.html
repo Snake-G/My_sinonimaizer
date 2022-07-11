@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block content %}
+<br>
+<form action="" method="post">
+    <div class="pt-5 d-flex justify-content-left">
+        <div class="d-flex flex-column">
+            <p>{{ form.hidden_tag() }}</p>
+            <p>{{ form.message.label }}<br>{{ form.message(cols=50) }}</p>
+            <p>{{ form.submit }}</p>
+        </div>
+    </div>
+</form>
+
+<div class="col-md-auto">
+     {% if words is string %}
+         <p class="text-warning" >{{ words }}</p>
+     {% else %}
+         <p>{{ output }}</p>
+         {% for word in words %}
+             <li>{{ word }}</li>
+         {% endfor %}
+     {% endif %}
+</div>
+
+
+
+{% endblock %}
